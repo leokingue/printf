@@ -30,6 +30,10 @@ int _printf(const char *format, ...)
 			{
 				len += print_str(arg);
 			}
+			else if (*format == 'i' || *format == 'd')
+			{
+				len += print_int(args);
+			}
 			else
 			{
 				_putchar(*--format);

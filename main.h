@@ -7,5 +7,7 @@ int _printf(const char *format, ...);
 unsigned int print_char(va_list arg);
 unsigned int print_str(va_list arg);
 unsigned int print_percent(char c);
+void print_num(int n);
+unsigned int print_int(va_list args);
 
 #endif
