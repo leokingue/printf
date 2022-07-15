@@ -32,7 +32,7 @@ int _printf(const char *format, ...)
 			}
 			else if (*format == 'i' || *format == 'd')
 			{
-				len += print_int(args);
+				len += print_int(arg);
 			}
 			else
 			{
