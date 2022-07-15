@@ -7,52 +7,52 @@
 /**
  * _printf - a function that produces output according to a format
  * @format: const char string
- * @return the number of characters printed
+ * Return: the number of characters printed
  */
 int _printf(const char *format, ...)
 {
-	unsigned int i, size_buffer = 0;
-	const char *str = format;
-	char BUFFER[100] = {0};
-	char *str_argument;
-	va_list ptr_list;
+	va_list vl;
+	int i, j = 0;
+	char buff[100] = {0};
+	char *str_arg;
 
-	va_start(ptr_list, format);
-	if (str == NULL)
-		return (0);
-	else
+	va_start(vl, str);
+	while (str && str[i])
 	{
-		for (i = 0; *str != '\0'; i++)
+		if (str[i] == '%')
 		{
-			if (*(str + i) == '%')
-			{
-				switch (str[i + (i + 1)])
-				{
-					case 'c':
-						{
-							BUFFER[size_buffer] = (char)va_arg(ptr_list, int);
-							size_buffer++;
-							break;
-						}
-					case 's':
-						{
-							str_argument = (char*)va_arg(ptr_list, char*);
-							strcpy(&BUFFER[size_buffer], str_argument);
-							size_buffer += strlen(str_argument);
-							break;
-						}
-				}
-				i++;
-			}
-			else
-			{
-				BUFFER[size_buffer] = str[i];
-				size_buffer++;
-			}
 			i++;
+			switch (str[i])
+			{
+				case 'c':
+					{
+						buff[j] = (char)va_arg(vl, int);
+						j++;
+						break;
+					}
+				case 's':
+					{
+						str_arg = va_arg(vl, char*);
+						strcpy(&buff[j], str_arg);
+						j += strlen(str_arg);
+						break;
+					}
+				case ' ':
+					{
+						buff[j] = '%';
+						j++;
+						break;
+					}
+			}
 		}
-		fwrite(BUFFER, size_buffer, 1, stdout);
-		va_end(ptr_list);
-		return (size_buffer);
+		else
+		{
+			buff[j] = str[i];
+			j++;
+		}
+		i++;
 	}
+	fwrite(buff, j, 1, stdout);
+	va_end(vl);
+	return (j);
 }
