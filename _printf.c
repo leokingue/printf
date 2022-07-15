@@ -11,7 +11,7 @@
  */
 int _printf(const char *format, ...)
 {
-	unsigned int length = 0;
+	unsigned int len = 0;
 	va_list arg;
 
 	if (!format)

@@ -17,7 +17,8 @@
 int main(void)
 {
 	char c = 'e';
+	char *s = "word";
 
-	_printf("hgfhfkjfjfj %c",c);
+	_printf("Mu character is %c and my string is %s",c ,s);
 	return (0);
 }
