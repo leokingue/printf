@@ -11,48 +11,43 @@
  */
 int _printf(const char *format, ...)
 {
-	va_list vl;
-	int i, j = 0;
-	char buff[100] = {0};
-	char *str_arg;
+	unsigned int length = 0;
+	va_list arg;
 
-	va_start(vl, str);
-	while (str && str[i])
+	if (!format)
+		return (-1);
+	va_start(arg, format);
+	while (*format)
 	{
-		if (str[i] == '%')
+		if (*format == '%' && *(format + 1) != '%')
 		{
-			i++;
-			switch (str[i])
+			format++;
+			if (*format == 'c')
 			{
-				case 'c':
-					{
-						buff[j] = (char)va_arg(vl, int);
-						j++;
-						break;
-					}
-				case 's':
-					{
-						str_arg = va_arg(vl, char*);
-						strcpy(&buff[j], str_arg);
-						j += strlen(str_arg);
-						break;
-					}
-				case ' ':
-					{
-						buff[j] = '%';
-						j++;
-						break;
-					}
+				len += print_char(arg);
 			}
+			else if (*format == 's')
+			{
+				len += print_str(arg);
+			}
+			else
+			{
+				_putchar(*--format);
+				len++;
+			}
+		}
+		else if (*format == '%')
+		{
+			len += print_percent(*format);
+			format++;
 		}
 		else
 		{
-			buff[j] = str[i];
-			j++;
+			_putchar(*format);
+			len++;
 		}
-		i++;
+		format++;
 	}
-	fwrite(buff, j, 1, stdout);
-	va_end(vl);
-	return (j);
+	va_end(arg);
+	return (len);
 }
